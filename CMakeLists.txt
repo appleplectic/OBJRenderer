@@ -12,4 +12,6 @@ add_executable(objrenderer src/main.cpp
         src/OBJRenderer/OBJRenderer.cpp
         src/OBJRenderer/OBJRenderer.h
         src/OBJParser/OBJParser.cpp
-        src/OBJParser/OBJParser.h)
+        src/OBJParser/OBJParser.h
+        src/ArgvParser/ArgvParser.cpp
+        src/ArgvParser/ArgvParser.h)

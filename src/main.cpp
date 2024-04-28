@@ -1,26 +1,32 @@
-#include <iostream>
-
 #include "OBJRenderer/OBJRenderer.h"
 #include "OBJParser/OBJParser.h"
+#include "ArgvParser/ArgvParser.h"
 
-int main() {
-    OBJRenderer a(Vec2D{1000, 1000}, Color{0, 0, 0}, SImg::BOTTOM_LEFT);
 
-    for (const OBJParser b("person.obj"); const auto& face : b.get_faces()) {
-        auto first = b.get_vertices().at(face.at(0)-1);
-        auto second = b.get_vertices().at(face.at(1)-1);
-        auto third = b.get_vertices().at(face.at(2)-1);
+int main(const int argc, const char *argv[]) {
+    const OBJRendererSettings argv_parser = parse_args(argc, argv);
+    argv_parser.validate_settings();
 
-        const auto first_v = Vec2D{static_cast<int>((first.x + 1.) * (a.get_width()-1) / 2.), static_cast<int>((first.y + 1.) * (a.get_height()-1) / 2.)};
-        const auto second_v = Vec2D{static_cast<int>((second.x + 1.) * (a.get_width()-1) / 2.), static_cast<int>((second.y + 1.) * (a.get_height()-1) / 2.)};
-        const auto third_v = Vec2D{static_cast<int>((third.x + 1.) * (a.get_width()-1) / 2.), static_cast<int>((third.y + 1.) * (a.get_height()-1) / 2.)};
+    OBJRenderer renderer(Vec2D{argv_parser.width, argv_parser.height}, Color{0, 0, 0}, SImg::BOTTOM_LEFT);
 
-        a.draw_line(first_v, second_v, Color{255, 255, 255});
-        a.draw_line(second_v, third_v, Color{255, 255, 255});
-        a.draw_line(third_v, first_v, Color{255, 255, 255});
+    for (const OBJParser parser(argv_parser.infile); const auto& face : parser.get_faces()) {
+        Vec3D first = parser.get_vertices().at(face.at(0) - 1);
+        Vec3D second = parser.get_vertices().at(face.at(1) - 1);
+        Vec3D third = parser.get_vertices().at(face.at(2) - 1);
+
+        const auto first_v = Vec2D{static_cast<int>((first.x + 1.) * (renderer.get_width()-1) / 2.), static_cast<int>((first.y + 1.) * (renderer.get_height()-1) / 2.)};
+        const auto second_v = Vec2D{static_cast<int>((second.x + 1.) * (renderer.get_width()-1) / 2.), static_cast<int>((second.y + 1.) * (renderer.get_height()-1) / 2.)};
+        const auto third_v = Vec2D{static_cast<int>((third.x + 1.) * (renderer.get_width()-1) / 2.), static_cast<int>((third.y + 1.) * (renderer.get_height()-1) / 2.)};
+
+        renderer.draw_line(first_v, second_v, Color{255, 255, 255});
+        renderer.draw_line(second_v, third_v, Color{255, 255, 255});
+        renderer.draw_line(third_v, first_v, Color{255, 255, 255});
     }
 
-    a.save("hello.ppm");
-    SImg::open_file("hello.ppm");
+    renderer.save(argv_parser.outfile);
+    if (argv_parser.openfile) {
+        SImg::open_file(argv_parser.outfile);
+    }
+
     return 0;
 }
