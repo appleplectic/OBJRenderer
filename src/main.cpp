@@ -11,7 +11,6 @@ int main(const int argc, const char *argv[]) {
     const OBJRendererSettings& argv_parser = opt_parser.value();
 
     OBJRenderer renderer(Vec2D{argv_parser.width, argv_parser.height}, Color{0, 0, 0}, SImg::BOTTOM_LEFT);
-
     for (const OBJParser parser(argv_parser.infile); const auto& face : parser.get_faces()) {
         const Vec3D first = parser.get_vertices().at(face.at(0) - 1);
         const Vec3D second = parser.get_vertices().at(face.at(1) - 1);

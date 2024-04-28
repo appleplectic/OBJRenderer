@@ -12,3 +12,6 @@ cmake --build .
 
 ## Usage
 See `./objrenderer --help` for usage details.
+
+## Status
+OBJRenderer is currently WIP, and as of now can only render the wireframe of a triangulated mesh. 

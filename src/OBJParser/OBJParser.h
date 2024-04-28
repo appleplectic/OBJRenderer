@@ -4,10 +4,15 @@
 #include <vector>
 
 
+std::vector<std::string> split(const std::string& s, char delim = ' ');
+
+
 struct Vec3D {
     double x;
     double y;
     double z;
+
+    void normalize(double min, double max);
 
     [[nodiscard]] std::string get_str() const;
 

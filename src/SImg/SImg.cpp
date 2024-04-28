@@ -138,7 +138,5 @@ void SImg::open_file(const std::string &filename) {
 #else
 #error "Platform not supported"
 #endif
-    if (system(command.c_str()) != 0) {
-        throw std::runtime_error("Unable to open file " + filename);
-    }
+    std::system(command.c_str());
 }
