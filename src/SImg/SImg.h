@@ -21,8 +21,8 @@ struct Color {
 
 
 struct Vec2D {
-    unsigned int x;
-    unsigned int y;
+    int x;
+    int y;
 
     [[nodiscard]] std::string get_str() const;
 
@@ -45,11 +45,14 @@ public:
     void set_pixel(const Vec2D &pos, const Color& color);
     void save(const std::string &filename) const;
 
+    [[nodiscard]] int get_width() const { return width_; }
+    [[nodiscard]] int get_height() const { return height_; }
+
     static void open_file(const std::string &filename);
 
 private:
-    unsigned int width_;
-    unsigned int height_;
+    int width_;
+    int height_;
     ImgOrientation img_orientation_;
 
     std::vector<std::string> header_lines_;

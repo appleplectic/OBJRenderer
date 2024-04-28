@@ -13,3 +13,6 @@
 .idea/**/contentModel.xml
 
 cmake-build-*/
+
+*.obj
+*.ppm

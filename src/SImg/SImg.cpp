@@ -84,7 +84,7 @@ void SImg::set_pixel(const Vec2D &pos, const Color &color) {
         throw std::invalid_argument("Position " + pos.get_str() + " cannot be set.");
     }
 
-    const unsigned int index = pos.y*width_ + pos.x;
+    const int index = pos.y*width_ + pos.x;
     img_lines_.at(index) = color.get_str();
 }
 
@@ -104,23 +104,23 @@ void SImg::save(const std::string &filename) const {
             }
             break;
         case TOP_RIGHT:
-            for (unsigned int i = 0; i < height_; ++i) {
-                for (long long j = width_ - 1; j >= 0; --j) {
+            for (int i = 0; i < height_; i++) {
+                for (int j = width_ - 1; j >= 0; j--) {
                     open_file << img_lines_[i * width_ + j] << '\n';
                 }
             }
             break;
         case BOTTOM_LEFT:
-            for (long long i = height_ - 1; i >= 0; --i) {
-                for (unsigned int j = 0; j < width_; ++j) {
-                    open_file << img_lines_[i * width_ + j] << '\n';
+            for (int i = height_ - 1; i >= 0; i--) {
+                for (int j = 0; j < width_; j++) {
+                    open_file << img_lines_.at(i * width_ + j) << '\n';
                 }
             }
             break;
         case BOTTOM_RIGHT:
-            for (long long i = height_ - 1; i >= 0; --i) {
-                for (long long j = width_ - 1; j >= 0; --j) {
-                    open_file << img_lines_[i * width_ + j] << '\n';
+            for (int i = height_ - 1; i >= 0; i--) {
+                for (int j = width_ - 1; j >= 0; j--) {
+                    open_file << img_lines_.at(i * width_ + j) << '\n';
                 }
             }
             break;
