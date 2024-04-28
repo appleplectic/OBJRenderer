@@ -30,6 +30,7 @@ Examples:
 }
 
 
+/// Parse argc and argv[] and return an OBJRendererSettings object if okay, or {} if the args were invalid
 std::optional<OBJRendererSettings> parse_args(const int argc, const char* argv[]) {
     OBJRendererSettings settings;
     for (int i=1; i<argc; i++) {

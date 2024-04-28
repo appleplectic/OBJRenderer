@@ -8,14 +8,14 @@ int main(const int argc, const char *argv[]) {
     if (!opt_parser.has_value()) {
         return 1;
     }
-    OBJRendererSettings argv_parser = opt_parser.value();
+    const OBJRendererSettings& argv_parser = opt_parser.value();
 
     OBJRenderer renderer(Vec2D{argv_parser.width, argv_parser.height}, Color{0, 0, 0}, SImg::BOTTOM_LEFT);
 
     for (const OBJParser parser(argv_parser.infile); const auto& face : parser.get_faces()) {
-        Vec3D first = parser.get_vertices().at(face.at(0) - 1);
-        Vec3D second = parser.get_vertices().at(face.at(1) - 1);
-        Vec3D third = parser.get_vertices().at(face.at(2) - 1);
+        const Vec3D first = parser.get_vertices().at(face.at(0) - 1);
+        const Vec3D second = parser.get_vertices().at(face.at(1) - 1);
+        const Vec3D third = parser.get_vertices().at(face.at(2) - 1);
 
         const auto first_v = Vec2D{static_cast<int>((first.x + 1.) * (renderer.get_width()-1) / 2.), static_cast<int>((first.y + 1.) * (renderer.get_height()-1) / 2.)};
         const auto second_v = Vec2D{static_cast<int>((second.x + 1.) * (renderer.get_width()-1) / 2.), static_cast<int>((second.y + 1.) * (renderer.get_height()-1) / 2.)};

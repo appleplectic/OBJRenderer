@@ -131,14 +131,14 @@ void SImg::save(const std::string &filename) const {
 void SImg::open_file(const std::string &filename) {
 #if defined(_WIN32)
     std::string command = "explorer.exe \"" + filename + "\"";
-    (void) system(command.c_str());
 #elif defined(__APPLE__)
     std::string command = "open \"" + filename + "\"";
-    (void) system(command.c_str());
 #elif defined(__linux__)
     std::string command = "xdg-open \"" + filename + "\"";
-    (void) system(command.c_str());
 #else
 #error "Platform not supported"
 #endif
+    if (system(command.c_str()) != 0) {
+        throw std::runtime_error("Unable to open file " + filename);
+    }
 }
