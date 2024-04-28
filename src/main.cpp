@@ -4,8 +4,11 @@
 
 
 int main(const int argc, const char *argv[]) {
-    const OBJRendererSettings argv_parser = parse_args(argc, argv);
-    argv_parser.validate_settings();
+    const auto opt_parser = parse_args(argc, argv);
+    if (!opt_parser.has_value()) {
+        return 1;
+    }
+    OBJRendererSettings argv_parser = opt_parser.value();
 
     OBJRenderer renderer(Vec2D{argv_parser.width, argv_parser.height}, Color{0, 0, 0}, SImg::BOTTOM_LEFT);
 
