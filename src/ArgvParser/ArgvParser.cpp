@@ -1,13 +1,12 @@
 #include "ArgvParser.h"
 
 #include <iostream>
-#include <stdexcept>
 #include <fstream>
+#include <optional>
 
 
-void OBJRendererSettings::validate_settings() const {
-    if (help) {
-        std::cout <<
+void print_help() {
+    std::cout <<
 R"(Usage: objrenderer(.exe) [options] <input_file>
 
 This application processes an OBJ file and outputs a rendered PPM image.
@@ -27,33 +26,43 @@ Examples:
     objrenderer --width 1024 --height 768 --output path/to/output.ppm --openfile path/to/input.obj
 
   Note: Ensure that the input file path is accessible and the specified dimensions are valid for image processing.
-  )";
-    } else if (height <= 0 || width <= 0) {
-        throw std::runtime_error("Provide a valid width and height for the output image.");
-    }
+)";
 }
 
 
-OBJRendererSettings parse_args(const int argc, const char* argv[]) {
+std::optional<OBJRendererSettings> parse_args(const int argc, const char* argv[]) {
     OBJRendererSettings settings;
     for (int i=1; i<argc; i++) {
         std::string option = argv[i];
-
         if (auto j = NoArgs.find(option); j != NoArgs.end()) {
             j->second(settings);
         } else if (auto k = OneArgs.find(option); k != OneArgs.end()) {
             if (++i < argc) {
                 k->second(settings, {argv[i]});
             } else {
-                throw std::invalid_argument("Missing parameter after " + option);
+                std::cerr << "Missing parameter after " + option << "\n";
+                print_help();
+                return {};
             }
         } else {
-            if (std::ifstream test_file(option); !test_file) {
-                std::cerr << "Unrecognized command-line option " << option << " passed, ignoring...\n";
-            } else {
-                settings.infile = option;
+            if (std::ifstream test_file(option); !test_file.is_open()) {
+                std::cerr << "Unrecognized command-line option or invalid input file " << option << " passed.\n";
+                print_help();
+                return {};
             }
+            settings.infile = option;
         }
+    }
+
+    if (settings.help) {
+        print_help();
+        return {};
+    }
+
+    if (settings.height <= 0 || settings.width <= 0) {
+        std::cerr << "Provide a valid width and height for the output image.\n";
+        print_help();
+        return {};
     }
 
     return settings;

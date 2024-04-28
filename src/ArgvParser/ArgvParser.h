@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <optional>
 #include <string>
 #include <unordered_map>
 
@@ -14,8 +15,6 @@ struct OBJRendererSettings {
 
     int width = 0;
     int height = 0;
-
-    void validate_settings() const;
 };
 
 
@@ -46,4 +45,5 @@ const std::unordered_map<std::string, OneArgHandle> OneArgs {
 };
 #undef S
 
-OBJRendererSettings parse_args(int argc, const char* argv[]);
+void print_help();
+std::optional<OBJRendererSettings> parse_args(int argc, const char* argv[]);
