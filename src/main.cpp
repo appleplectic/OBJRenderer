@@ -20,9 +20,7 @@ int main(const int argc, const char *argv[]) {
         const auto second_v = Vec2D{static_cast<int>((second.x + 1.) * (renderer.get_width()-1) / 2.), static_cast<int>((second.y + 1.) * (renderer.get_height()-1) / 2.)};
         const auto third_v = Vec2D{static_cast<int>((third.x + 1.) * (renderer.get_width()-1) / 2.), static_cast<int>((third.y + 1.) * (renderer.get_height()-1) / 2.)};
 
-        renderer.draw_line(first_v, second_v, Color{255, 255, 255});
-        renderer.draw_line(second_v, third_v, Color{255, 255, 255});
-        renderer.draw_line(third_v, first_v, Color{255, 255, 255});
+        renderer.draw_triangle(first_v, second_v, third_v, get_random_color());
     }
 
     renderer.save(argv_parser.outfile);

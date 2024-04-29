@@ -8,6 +8,7 @@
 #include <sstream>
 #include <vector>
 #include <fstream>
+#include <random>
 
 
 Color::Color(std::string hex) {
@@ -42,6 +43,14 @@ bool Color::operator==(const Color &other) const noexcept {
 
 bool Color::operator!=(const Color &other) const noexcept {
     return !operator==(other);
+}
+
+Color get_random_color() {
+    static std::random_device rd;
+    static std::mt19937 mt(rd());
+    static std::uniform_int_distribution<int> dist(0, 255);
+
+    return Color{static_cast<unsigned char>(dist(mt)), static_cast<unsigned char>(dist(mt)), static_cast<unsigned char>(dist(mt))};
 }
 
 

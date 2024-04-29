@@ -20,6 +20,9 @@ struct Color {
 };
 
 
+Color get_random_color();
+
+
 struct Vec2D {
     int x;
     int y;

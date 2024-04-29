@@ -12,4 +12,5 @@ public:
     : SImg(dimensions, color, orientation) {}
 
     void draw_line(Vec2D start, Vec2D end, const Color &color);
+    void draw_triangle(Vec2D v0, Vec2D v1, Vec2D v2, const Color &color, bool wireframe = false);
 };
