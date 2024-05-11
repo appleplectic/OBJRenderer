@@ -53,7 +53,7 @@ public:
 
     static void open_file(const std::string &filename);
 
-private:
+protected:
     int width_;
     int height_;
     ImgOrientation img_orientation_;
